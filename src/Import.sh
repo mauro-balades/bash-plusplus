@@ -1,13 +1,14 @@
+#!/bin/bash
 
-ImportService:ImportGitHub {
-
+ImportService:GitHub() {
+  exit 0
 }
 
-ImportService:ImportUrl {
-
+ImportService:ImportUrl() {
+  exit 0
 }
 
-ImportService:SimpleImport {
+ImportService:SimpleImport() {
   path="$1"
   if [[ 'github:' == path* ]]; 
   then 
@@ -17,7 +18,7 @@ ImportService:SimpleImport {
   fi
 }
 
-ImportService:Import {
+ImportService:Import() {
 
   for var in "$@"
   do
@@ -25,7 +26,7 @@ ImportService:Import {
       then 
         ImportService:GitHub "${var:7}"
       else
-        ImportService:SimpleImport "${var}"
+        ImportService:SimpleImport "./${var}.sh"
       fi
   done
 }
