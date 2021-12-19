@@ -123,8 +123,8 @@ set -o pipefail
 shopt -s expand_aliases
 
 # Declare bash++'s paths
-# NOTE: the libs path will be generated with "sudo make install"
-declare -g libs="/usr/bin/bash++/libs/"
+# NOTE: the libs path and BASHPP_LIBS will be generated with "sudo make install"
+declare -g libs="$BASHPP_LIBS"
 declare -g cpath="$( pwd )"
 
 # Import function API
