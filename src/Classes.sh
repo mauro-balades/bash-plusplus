@@ -255,6 +255,8 @@ alias del="ClassService::delete"
 alias new.meta="ClassService::new_meta_object"
 alias del_all="ClassService::delete_all"
 
+alias get_self="local self=$1 && shift"
+
 # Make sure to delete all objects at end of program
 # Trap allows you to catch signals and execute code when they occur.
 trap 'ClassService::delete_all' TERM EXIT INT
