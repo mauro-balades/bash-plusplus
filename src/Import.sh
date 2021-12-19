@@ -44,9 +44,17 @@ ImportService::ImportUrl() {
   # It's probably less risky if this is done over an
   # internal network (depending on its overall security).
 
-  # We use the flag "-s" for silent mode
-  # TODO: check if curl exists, if not do it with wget
-  builtin source <(curl -s "$1")
+  # Check if curl exists by calling it with the help section.
+  # It is not recomended to have it with wdget.
+  if ! curl -h &> /dev/null
+  then
+      # Without output for a document nor file.
+      builtin source <(wget -O - -o /dev/null "${1}")
+  else
+    # We use the flag "-s" for silent mode
+    builtin source <(curl -s "$1")
+  fi
+
 }
 
 # ImportServer:SimpleImport (source | . | import.simple)

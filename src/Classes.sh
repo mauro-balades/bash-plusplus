@@ -9,8 +9,8 @@ import utils/ArrayMapper
 declare -A __BASHPP_ADDR_TABLE
 declare -A __BASHPP_OBEJCT_TABLE
 
-VARIABLE_REG = '_*\([a-zA-Z][a-zA-Z0-9_]*\)'
-PREFIX_REGEX = '\(_*\)[a-zA-Z][a-zA-Z0-9_]*'
+VARIABLE_REG='_*\([a-zA-Z][a-zA-Z0-9_]*\)'
+PREFIX_REGEX='\(_*\)[a-zA-Z][a-zA-Z0-9_]*'
 
 ClassService::create_var_mapper() {
   local NAME="$1"       # Variable's name

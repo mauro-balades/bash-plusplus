@@ -4,10 +4,8 @@ HIGH PRIORITY:
 - Start Errors
 - Start UnitTests
 - Do a good README
+- Finish Classes
 
 LOW PRIORITY:
 - Start Logger
 - Start Types
-- Start Classes
-- Check if curl exists in `Import.sh`
-   - If it does not exists, try with wget
