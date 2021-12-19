@@ -16,12 +16,12 @@
 #
 # Arguments:
 #   [any] path ($1): Path to fetch in "raw.githubusercontent.com".
-ImportService:GitHub() {
+ImportService::GitHub() {
   path="$1"
   url="https://raw.githubusercontent.com/$path"
 
   # Import like if it was a normal URL
-  ImportService:ImportUrl "$url"
+  ImportService::ImportUrl "$url"
 }
 
 # ImportServer:SimpleImport (import.url)
@@ -37,7 +37,7 @@ ImportService:GitHub() {
 #
 # Arguments:
 #   [any] url ($1): URL to be fetched and sourced
-ImportService:ImportUrl() {
+ImportService::ImportUrl() {
 
   # Note: I consider directly running code retrieved
   # over the internet to be a serious security risk.
@@ -69,18 +69,18 @@ ImportService:ImportUrl() {
 #
 # Arguments:
 #   [any] script ($1): Bash script to be sourced
-ImportService:SimpleImport() {
+ImportService::SimpleImport() {
   path="$1"
   if [[ 'github:' == $path* ]];
   then
-    ImportService:GitHub "${path:7}"
+    ImportService::GitHub "${path:7}"
   elif [[ $path == 'https://'* ]] || [[ $path == 'http://'* ]];
   then
-      ImportService:ImportUrl "${path}"
+      ImportService::ImportUrl "${path}"
   else
     builtin source "${path}" "$@" &> /dev/null || \
-    builtin source "${libs}" "$@" &> /dev/null || \
     builtin source "${libs}/${path}" "$@" &> /dev/null || \
+    builtin source "${libs}/${path}.sh" "$@" &> /dev/null || \
     builtin source "${cpath}/${path}" "$@" &> /dev/null || \
     builtin source "./${path}.sh" "$@" &> /dev/null || printf "Unable to load $path" >&2
   fi
@@ -103,13 +103,13 @@ ImportService:SimpleImport() {
 #
 # Arguments:
 #   [...any] scripts: Bash scripts to be imported
-ImportService:Import() {
+ImportService::Import() {
 
   # Iterate every argument
   for var in "$@"
   do
     # Source the script1
-    ImportService:SimpleImport "${var}"
+    ImportService::SimpleImport "${var}"
   done
 }
 
@@ -128,13 +128,13 @@ declare -g libs="$BASHPP_LIBS"
 declare -g cpath="$( pwd )"
 
 # Import function API
-alias import="ImportService:Import"
+alias import="ImportService::Import"
 
 # Overrides
-alias .="ImportService:SimpleImport"
-alias source="ImportService:SimpleImport"
+alias .="ImportService::SimpleImport"
+alias source="ImportService::SimpleImport"
 
 # Extending the API
-alias import.url="ImportService:ImportUrl"
-alias import.github="ImportService:ImportGitHub"
-alias import.simple="ImportService:SimpleImport" # Same as source and .
+alias import.url="ImportService::ImportUrl"
+alias import.github="ImportService::ImportGitHub"
+alias import.simple="ImportService::SimpleImport" # Same as source and .

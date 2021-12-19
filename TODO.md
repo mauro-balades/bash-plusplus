@@ -1,7 +1,6 @@
 
 HIGH PRIORITY:
 - Finish Import
-- Start System
 - Start Errors
 - Start UnitTests
 - Do a good README

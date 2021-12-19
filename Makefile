@@ -14,9 +14,9 @@ install:
 	sudo cp $(SOURCE)/Errors.sh $(LIBS)/Error.sh
 	sudo cp $(SOURCE)/Import.sh $(LIBS)/Import.sh
 	sudo cp $(SOURCE)/Logger.sh $(LIBS)/Logger.sh
-	sudo cp $(SOURCE)/System.sh $(LIBS)/System.sh
 	sudo cp $(SOURCE)/Types.sh $(LIBS)/Types.sh
 	sudo cp $(SOURCE)/UnitTests.sh $(LIBS)/UnitTests.sh
+	sudo cp -rf $(SOURCE)/utils $(LIBS)/utils
 	export BASHPP_LIBS=$(LIBS)
 	sudo echo "BASHPP_LIBS=$(LIBS)" >> /etc/environment
 
@@ -28,7 +28,7 @@ help:
 	@echo ""
 	@echo "About:"
 	@echo "  Bash++ Is a bash framework to make bash an OO programming language."
-	@echo "  It also brings new functionalities such as: Unit Testing, System utils,"
+	@echo "  It also brings new functionalities such as: Unit Testing, "
 	@echo "  Logging, Importing, Types, Classes, Erorrs and many more to come"
 	@echo ""
 	@echo "Usage:"
