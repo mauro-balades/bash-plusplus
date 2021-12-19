@@ -1,9 +1,42 @@
 #!/bin/bash
 
+# ImportServer:GitHub (import.github)
+#
+# Usage:
+#   import.github mauro-balades/bash-plusplus/blob/main/script.sh
+#   import github:mauro-balades/bash-plusplus/blob/main/script.sh
+#
+# Description:
+#   import.url fetches a github repo and the it sources it with it's
+#   response contents. This can also be called by doing a normal import
+#   with the prefix of ("github:").
+#
+# Note:
+#   It fetches the file by the "raw.githubusercontent.com" domain.
+#
+# Arguments:
+#   [any] path ($1): Path to fetch in "raw.githubusercontent.com".
 ImportService:GitHub() {
-  exit 0
+  path="$1"
+  url="https://raw.githubusercontent.com/$path"
+
+  # Import like if it was a normal URL
+  ImportService:ImportUrl "$url"
 }
 
+# ImportServer:SimpleImport (import.url)
+#
+# Usage:
+#   import.url https://my-domain.com/script.sh
+#   import.url http://my-domain.com/script.sh # Supports http
+#   import http://my-domain.com/script.sh # Supports http
+#
+# Description:
+#   import.url fetches a site and the it sources it with it's
+#   response contents. It supports https and http.
+#
+# Arguments:
+#   [any] url ($1): URL to be fetched and sourced
 ImportService:ImportUrl() {
 
   # Note: I consider directly running code retrieved
@@ -35,7 +68,7 @@ ImportService:ImportUrl() {
 #   support multiple files.
 #
 # Arguments:
-#   [any] script: Bash script to be sourced
+#   [any] script ($1): Bash script to be sourced
 ImportService:SimpleImport() {
   path="$1"
   if [[ 'github:' == $path* ]];
