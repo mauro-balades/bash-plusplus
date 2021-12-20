@@ -1,5 +1,30 @@
 #!/bin/bash
 
+# ================================ BASH ++ ================================
+#
+#    ...............................................
+#    @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+#    @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+#    @@@@@@@@@.(@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+#    @@@@@@@      @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+#    @@@@@@@@@      #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+#    @@@@@@@@@@@       @@@@@@@@@@@@@@@@@@@@@@@@  @@@   @@
+#    @@@@@@@@@@@@@      ,@@@@@@@@@@@@@@@@@@@@      @ @@@@@@
+#    @@@@@@@@@@.      @@@@@@@@@@@@@@@@@@@@@@@@@  @@@   @@
+#    @@@@@@@@      .@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+#    @@@@@@@@    @@@@@@@@             #@@@@@@@@@@@@@
+#    @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+#    @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+#    @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+#    @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+#    @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+#    @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@&
+#
+# Copytight <Mauro Baladés> 2007
+# Bash++ Is under the license of "GNU GENERAL PUBLIC LICENSE
+# =========================================================================
+
+
 # Import necesary utility modules
 import utils/ArrayMapper
 
@@ -101,7 +126,7 @@ ClassService::new_meta_object()
                 # Create a new variable
                 ClassService::create_var_mapper "${NAME}" "$2" "$VALUE_FIELD"
             fi
-        elif [[ $1 = "proc" ]];
+        elif [[ $1 = "function" ]];
         then # We found a function
             [[ -z $VALUE_FIELD ]] && VALUE_FIELD=${CLASS}::$2 # If user does not point to a function
 
@@ -109,7 +134,7 @@ ClassService::new_meta_object()
             eval "$NAME.$2() { $VALUE_FIELD $NAME \"\$@\"; }"
         else # The person is not capable to read the documentation
             echo -e "Bash++: Syntax error in class-field $CLASS_FIELDS in class $CLASS,
-\texpected proc or declare keyword" >&2 # TODO: better errors
+\texpected function or declare keyword" >&2 # TODO: better errors
             return 1 # Return an error
         fi
 
@@ -166,7 +191,7 @@ ClassService::new_object()
     eval ClassService::new_meta_object $OBJ_NAME $CLASS $VARNAME \"\${$CLASS[@]}\"
 
     # Call constructor.
-    [[ $(type -t $OBJ_NAME.__new__) == proc ]] && $OBJ_NAME.__new__ "$@"
+    [[ $(type -t $OBJ_NAME.__new__) == function ]] && $OBJ_NAME.__new__ "$@"
 }
 
 # ClassService::delete (del)
@@ -191,7 +216,7 @@ ClassService::delete()
     fi
 
     # Check for destructor and call it if one is existent.
-    [[ $(type -t $1.__delete__) == proc ]] && $1.__delete__
+    [[ $(type -t $1.__delete__) == function ]] && $1.__delete__
 }
 
 # ClassService::delete_all (del_all)

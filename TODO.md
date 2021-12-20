@@ -9,3 +9,6 @@ HIGH PRIORITY:
 LOW PRIORITY:
 - Start Logger
 - Start Types
+
+TESTS:
+ - Add tests

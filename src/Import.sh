@@ -24,11 +24,113 @@
 # Bash++ Is under the license of "GNU GENERAL PUBLIC LICENSE
 # =========================================================================
 
-# Declare an array containing the imported files
-# To avoid duplucation
-declare -ag _BASHPP_IMPORTED_FILES
+# ImportService::AddModule (import.addm)
+#
+# Usage:
+#   import.addm Classes
+#
+# Description:
+#   import.addm basically adds a new module to the list.
+#   This is used so that modules are not imported imported
+#   than once.
+#
+# Arguments:
+#   [string] module ($1): Module to add to _BASHPP_IMPORTED_FILES.
+ImportService::AddModule() {
+  # Get the length of the array
+  len="${#_BASHPP_IMPORTED_FILES[@]}"
 
-# ImportServer:GitHub (import.github)
+  # Add one to the length.
+  # The length will now be the
+  # new index in where the new
+  # module will be appended
+  (( len++ ))
+
+  # Import the new module to the list
+  _BASHPP_IMPORTED_FILES[index]="$1"
+}
+
+# ImportService::ImportModuleByPath
+#
+#
+# Description:
+#   This function should be private.
+#   The function is used internally to source a new file and add it
+#   to _BASHPP_IMPORTED_FILES by using ImportService::AddModule
+#
+# Arguments:
+#   [string] module ($1): Module to add to _BASHPP_IMPORTED_FILES.
+ImportService::ImportModuleByPath() {
+  # Get the path
+  local path="$1"
+  shift
+
+  # Initialize the return value
+  RET=1
+
+  # If the "file" has been sourced successfully:
+  if builtin source "${path}" "$@" &> /dev/null;
+  then
+    # Add the module to _BASHPP_IMPORTED_FILES
+    ImportService::AddModule "${path}"
+
+    # Set the return to 0.
+    # Why?
+    #   If statements check if the function
+    #   has returned 0 because "0" is the
+    #   exit code for success.
+    RET=0
+  fi
+
+  # Return if the file has successfully sourced
+  return $RET
+}
+
+# ImportService::Exists (import.exists)
+#
+# Usage:
+#   import.exists Classes
+#
+# Description:
+#   import.exists checks if a module has already been loaded.
+#
+# Arguments:
+#   [string] module ($1): Module to check if it exists.
+ImportService::Exists() {
+  local module="$1"
+
+  # Check if module exists in array
+  if [[ ${_BASHPP_IMPORTED_FILES[*]} =~ ${module} ]]; then
+    return 1 # Exists
+  fi
+
+  return 0 # It does not exists
+}
+
+# ImportService::NExists (import.nexists)
+#
+# Usage:
+#   import.nexists Classes
+#
+# Description:
+#   import.nexists gives a reversed boolean value from ImportService::Exists
+#
+# Arguments:
+#   [string] module ($1): Module to check if it exists.
+ImportService::NExists() {
+  local module="$1"
+  shift
+
+  # Check if module exists in array
+  if [[ ${_BASHPP_IMPORTED_FILES[*]} =~ ${module} ]];
+  then
+    return 0 # Exists
+  fi
+
+  return 1 # It does not exists
+}
+
+# ImportService::GitHub (import.github)
 #
 # Usage:
 #   import.github mauro-balades/bash-plusplus/blob/main/script.sh
@@ -52,7 +154,7 @@ ImportService::GitHub() {
   ImportService::ImportUrl "$url"
 }
 
-# ImportServer:SimpleImport (import.url)
+# ImportService::ImportUrl (import.url)
 #
 # Usage:
 #   import.url https://my-domain.com/script.sh
@@ -83,12 +185,12 @@ ImportService::ImportUrl() {
     builtin source <(curl -s "$1")
   fi
 
-  # After sourcing the path, We addit to the
+  # After sourcing the path, We add it to the
   # imported files
-  _BASHPP_IMPORTED_FILES+=( "$path" )
+  ImportService::AddModule "$path"
 }
 
-# ImportServer:SimpleImport (source | . | import.simple)
+# ImportService::SimpleImport (source | . | import.simple)
 #
 # Usage:
 #   source MyFile
@@ -110,6 +212,7 @@ ImportService::ImportUrl() {
 #   [any] script ($1): Bash script to be sourced
 ImportService::SimpleImport() {
   local path="$1"
+
   if [[ 'github:' == $path* ]]; # Check if the path is for github
   then
     # Import a github path with ImportService::GitHub
@@ -135,6 +238,14 @@ ImportService::SimpleImport() {
     ImportService::ImportUrl "${path}"
   else
 
+    # Check if module has been already sourced
+    if ImportService::NExists "${path}";
+    then
+      # TODO: better error handling
+      printf "\"$path\" has already been imported\n" >&2
+      return 1 # DO NOT SOURCE AGAIN
+    fi
+
     # We check for possible file solutions to be sourced.
     # This can create better Syntax reading.
     # e.g.
@@ -154,29 +265,22 @@ ImportService::SimpleImport() {
     # path (NOT RECOMENDED).
     # e.g.
     #   import /usr/lib/bash++/Classes.sh
-    if [[ $(builtin source "${path}" "$@" &> /dev/null) ]];#--------------# path
-    then                                                                  #
-      _BASHPP_IMPORTED_FILES+=( "$path" )#--------------------------------# Add "{path}"
-    elif [[ $(builtin source "${libs}/${path}" "$@" &> /dev/null) ]];#----# /usr/lib/path
-    then                                                                  #
-        _BASHPP_IMPORTED_FILES+=( "${libs}/${path}" )#--------------------# Add {libs}/{path}
-    elif [[ $(builtin source "${libs}/${path}.sh" "$@" &> /dev/null) ]];#-#
-    then                                                                  # /usr/lib/path.sh
-        _BASHPP_IMPORTED_FILES+=( "${libs}/${path}.sh" )#-----------------# Add {libs}/{path}.sh
-    elif [[ $(builtin source "${cpath}/${path}" "$@" &> /dev/null) ]];#---# $( pwd )/path
-    then                                                                  #
-        _BASHPP_IMPORTED_FILES+=( "${cpath}/${path}" )#-------------------# Add {cpath}/{path}
-    elif [[ $(builtin source "./${path}.sh" &> /dev/null) ]];#------------# $( pwd )/path.sh
-    then                                                                  #
-        _BASHPP_IMPORTED_FILES+=( "./${path}.sh" )#-----------------------# Add {cpath}/{path}.sh
-    else #----------------------------------------------------------------# NOT FOUND
+    if ImportService::ImportModuleByPath "${path}" "$@" || \
+    ImportService::ImportModuleByPath "${libs}/${path}" "$@"|| \
+    ImportService::ImportModuleByPath "${libs}/${path}.sh" "$@"|| \
+    ImportService::ImportModuleByPath "${cpath}/${path}" "$@"|| \
+    ImportService::ImportModuleByPath "./${path}.sh" "$@";
+    then
+      :
+    else
       # TODO: better error handling
-      printf "Unable to load $path" >&2
+      printf "Unable to load $path\n" >&2
+      exit 1
     fi
   fi
 }
 
-# ImportServer:Import (import)
+# ImportService::Import (import)
 #
 # Usage:
 #   import MyFile
@@ -214,8 +318,13 @@ shopt -s expand_aliases
 
 # Declare bash++'s paths
 # NOTE: the libs path and BASHPP_LIBS will be generated with "sudo make install"
-declare -g libs="$BASHPP_LIBS"
-declare -g cpath="$( pwd )"
+builtin declare -g libs="$BASHPP_LIBS"
+builtin declare -g cpath="$( pwd )"
+
+# Declare an array containing the imported files
+# To avoid duplucation
+declare -ag _BASHPP_IMPORTED_FILES
+
 
 # Import function API
 alias import="ImportService::Import"
@@ -228,3 +337,9 @@ alias source="ImportService::SimpleImport"
 alias import.url="ImportService::ImportUrl"
 alias import.github="ImportService::ImportGitHub"
 alias import.simple="ImportService::SimpleImport" # Same as source and .
+
+# Utility functions
+alias import.exists="ImportService::Exists"
+alias import.nexists="ImportService::NExists"
+
+alias import.addm="ImportService::AddModule"
