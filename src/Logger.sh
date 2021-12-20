@@ -29,7 +29,7 @@ import Classes
 
 Logger=(
 
-  proc __new__ = Logger::__new__
+  function __new__ = Logger::__new__
 
   # Define colors
   # declare bold

@@ -323,7 +323,7 @@ builtin declare -g cpath="$( pwd )"
 
 # Declare an array containing the imported files
 # To avoid duplucation
-declare -ag _BASHPP_IMPORTED_FILES
+builtin declare -ag _BASHPP_IMPORTED_FILES
 
 
 # Import function API
