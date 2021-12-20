@@ -18,7 +18,7 @@
 #   [any] path ($1): Path to fetch in "raw.githubusercontent.com".
 ImportService::GitHub() {
   path="$1"
-  url="https://raw.githubusercontent.com/$path"
+  url="https://raw.githubusercontent.com/$path" # Add github domain
 
   # Import like if it was a normal URL
   ImportService::ImportUrl "$url"

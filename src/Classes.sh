@@ -13,16 +13,17 @@ VARIABLE_REG='_*\([a-zA-Z][a-zA-Z0-9_]*\)'
 PREFIX_REGEX='\(_*\)[a-zA-Z][a-zA-Z0-9_]*'
 
 ClassService::create_var_mapper() {
-  local NAME="$1"       # Variable's name
-  local VALUE_F="{$2-}" # Variable's value field
 
-  eval "${NAME}_$2=${VALUE_F-}" # Create new variable
+  local OBJ_NAME=$1       # Variable's name
+  local VALUE_FIELD=${2-} # Variable's value field
 
-  local VAR=$(expr "${2-}" : $VARIABLE_REG || exit 0)
+  eval ${OBJ_NAME}_$2=${VALUE_FIELD-} # Create new variable
+
   local PREFIX=$(expr "${2-}" : $PREFIX_REGEX || exit 0)
+  local VAR=$(expr "${2-}" : $VARIABLE_REG || exit 0)
 
-  eval "$NAME.${PREFIX-}${VAR}() { echo \"\$${NAME}_$2\"; }"
-  eval "$NAME.${PREFIX-}${VAR}=() { ${NAME}_$2=\$1; }"
+  eval "$OBJ_NAME.${PREFIX-}${VAR}() { echo \"\$${OBJ_NAME}_$2\"; }"
+  eval "$OBJ_NAME.${PREFIX-}${VAR}=() { ${OBJ_NAME}_$2=\$1; }"
 }
 
 ClassService::create_array_mapper()
@@ -87,7 +88,7 @@ ClassService::new_meta_object()
         # We check for keywords
         if [[ $1 = "declare" ]];
         then
-            if [[ $2 = "arr" ]];
+            if [[ $2 = "-a" ]]; # -a is for array
             then # Declaring a variable
 
                 # Increment the shift
@@ -102,7 +103,7 @@ ClassService::new_meta_object()
             fi
         elif [[ $1 = "proc" ]];
         then # We found a function
-            [[ -z $VALUE_FIELD ]] && VALUE_FIELD=${CLASS}::$2
+            [[ -z $VALUE_FIELD ]] && VALUE_FIELD=${CLASS}::$2 # If user does not point to a function
 
              # Create a new function declaration
             eval "$NAME.$2() { $VALUE_FIELD $NAME \"\$@\"; }"
@@ -254,8 +255,6 @@ alias del="ClassService::delete"
 # Expand extra API function exporting
 alias new.meta="ClassService::new_meta_object"
 alias del_all="ClassService::delete_all"
-
-alias get_self="local self=$1 && shift"
 
 # Make sure to delete all objects at end of program
 # Trap allows you to catch signals and execute code when they occur.
