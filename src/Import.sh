@@ -1,5 +1,33 @@
 #!/bin/bash
 
+# ================================ BASH ++ ================================
+#
+#    ...............................................
+#    @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+#    @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+#    @@@@@@@@@.(@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+#    @@@@@@@      @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+#    @@@@@@@@@      #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+#    @@@@@@@@@@@       @@@@@@@@@@@@@@@@@@@@@@@@  @@@   @@
+#    @@@@@@@@@@@@@      ,@@@@@@@@@@@@@@@@@@@@      @ @@@@@@
+#    @@@@@@@@@@.      @@@@@@@@@@@@@@@@@@@@@@@@@  @@@   @@
+#    @@@@@@@@      .@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+#    @@@@@@@@    @@@@@@@@             #@@@@@@@@@@@@@
+#    @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+#    @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+#    @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+#    @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+#    @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+#    @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@&
+#
+# Copytight <Mauro Baladés> 2007
+# Bash++ Is under the license of "GNU GENERAL PUBLIC LICENSE
+# =========================================================================
+
+# Declare an array containing the imported files
+# To avoid duplucation
+declare -ag _BASHPP_IMPORTED_FILES
+
 # ImportServer:GitHub (import.github)
 #
 # Usage:
@@ -55,6 +83,9 @@ ImportService::ImportUrl() {
     builtin source <(curl -s "$1")
   fi
 
+  # After sourcing the path, We addit to the
+  # imported files
+  _BASHPP_IMPORTED_FILES+=( "$path" )
 }
 
 # ImportServer:SimpleImport (source | . | import.simple)
@@ -78,19 +109,70 @@ ImportService::ImportUrl() {
 # Arguments:
 #   [any] script ($1): Bash script to be sourced
 ImportService::SimpleImport() {
-  path="$1"
-  if [[ 'github:' == $path* ]];
+  local path="$1"
+  if [[ 'github:' == $path* ]]; # Check if the path is for github
   then
+    # Import a github path with ImportService::GitHub
+    # In where raw.githubusercontent.com/ is being added
+    # as a prefix in the path.
     ImportService::GitHub "${path:7}"
-  elif [[ $path == 'https://'* ]] || [[ $path == 'http://'* ]];
+  elif [[ $path == 'https://'* ]] || [[ $path == 'http://'* ]]; # Check if it is an URL
   then
-      ImportService::ImportUrl "${path}"
+    # If the "path" is an URL, we just fetch it and
+    # source it's response. We don't need to add
+    # it to the imported files arrays here.
+    #
+    # Why?
+    # Because we do exactly the same if it was a GitHub
+    # path. If we do it this way, we can also check
+    # if path has been imported twice from github
+    # e.g. (Same URL)
+    #   import https://raw.githubusercontent.com/...
+    #   import github:...
+    #
+    # They would be the same URL, that is why we need to
+    # do it this way.
+    ImportService::ImportUrl "${path}"
   else
-    builtin source "${path}" "$@" &> /dev/null || \
-    builtin source "${libs}/${path}" "$@" &> /dev/null || \
-    builtin source "${libs}/${path}.sh" "$@" &> /dev/null || \
-    builtin source "${cpath}/${path}" "$@" &> /dev/null || \
-    builtin source "./${path}.sh" "$@" &> /dev/null || printf "Unable to load $path" >&2
+
+    # We check for possible file solutions to be sourced.
+    # This can create better Syntax reading.
+    # e.g.
+    #   import Classes
+    #
+    #   Possible cases:
+    #     - Classes
+    #     - ./Classes.sh
+    #     - /usr/lib/bash++/Classes.sh
+    #     - /usr/lib/bash++/Classes
+    #     - $( pwd )/Classes
+    #
+    # As shown in the example, we can see how messy can
+    # some of the URL's be, this is why this method implemented.
+    # You can just compare and wich while you like.
+    # If you like more the "messy" syntax, you can always do the full
+    # path (NOT RECOMENDED).
+    # e.g.
+    #   import /usr/lib/bash++/Classes.sh
+    if [[ $(builtin source "${path}" "$@" &> /dev/null) ]];#--------------# path
+    then                                                                  #
+      _BASHPP_IMPORTED_FILES+=( "$path" )#--------------------------------# Add "{path}"
+    elif [[ $(builtin source "${libs}/${path}" "$@" &> /dev/null) ]];#----# /usr/lib/path
+    then                                                                  #
+        _BASHPP_IMPORTED_FILES+=( "${libs}/${path}" )#--------------------# Add {libs}/{path}
+    elif [[ $(builtin source "${libs}/${path}.sh" "$@" &> /dev/null) ]];#-#
+    then                                                                  # /usr/lib/path.sh
+        _BASHPP_IMPORTED_FILES+=( "${libs}/${path}.sh" )#-----------------# Add {libs}/{path}.sh
+    elif [[ $(builtin source "${cpath}/${path}" "$@" &> /dev/null) ]];#---# $( pwd )/path
+    then                                                                  #
+        _BASHPP_IMPORTED_FILES+=( "${cpath}/${path}" )#-------------------# Add {cpath}/{path}
+    elif [[ $(builtin source "./${path}.sh" &> /dev/null) ]];#------------# $( pwd )/path.sh
+    then                                                                  #
+        _BASHPP_IMPORTED_FILES+=( "./${path}.sh" )#-----------------------# Add {cpath}/{path}.sh
+    else #----------------------------------------------------------------# NOT FOUND
+      # TODO: better error handling
+      printf "Unable to load $path" >&2
+    fi
   fi
 }
 
