@@ -1,3 +1,5 @@
+<div id="top"></div>
+
 <p align="center">
 <img src="./logo.png" width="250" />
 <h2 align="center">bash ++</h1>
@@ -17,6 +19,19 @@
 
 # Index
 
+- [What is bash++ ?](#what-is-bash----)
+- [Installation](#installation)
+- [Usage](#usage)
+  * [Getting started](#getting-started)
+  * [Bootstrap the project](#bootstrap-the-project)
+  * [Functionalities](#functionalities)
+    + [Import](#import)
+      - [Import's extended API](#import-s-extended-api)
+    + [Classes](#classes)
+      - [Initiate a class](#initiate-a-class)
+      - [Call class' attributes](#call-class--attributes)
+- [License](#license)
+
 # What is bash++ ?
 
 Bash++ is a new way to brin bash to a next level. This framework introduces new functionalities to bash. Some of this functionalities are:
@@ -35,6 +50,7 @@ Bash++ is designed so that people could build more complex apps creating better 
 When you run `bash++` with bash, the application brakes. This is why you need to add `#!/usr/bash` to the start of the script ([see instructions here](#getting-started)).
 
 Bash haves it's own module system, so you will have a bash++ folder in your `/usr/libs` directory (just so that you know).
+<p align="right">(<a href="#top">back to top</a>)</p>
 
 # Installation
 
@@ -80,6 +96,8 @@ Then, you can just simply run the script as:
 
 *NOTE*: Replace `[SCRIPT_NAME]` with your main bash script.
 
+<p align="right">(<a href="#top">back to top</a>)</p>
+
 ## Bootstrap the project
 
 To bootstrap your script you will need to source the Import script in your libs folder.
@@ -89,6 +107,7 @@ To bootstrap your script you will need to source the Import script in your libs 
 ```
 
 **NOTE**: Only do this step *once* (aka in the main script). and you will need to put in at the top of the file.
+<p align="right">(<a href="#top">back to top</a>)</p>
 
 ## Functionalities
 
@@ -158,6 +177,8 @@ Usage:
 
 **NOTE:** It adds the script to an array of imported files. If you get an error saying that a file has already been sourced, remove that file from the import function since it already exists.
 
+<p align="right">(<a href="#top">back to top</a>)</p>
+
 #### Import's extended API
 
 Bash++ also exports some extra features from the import API.
@@ -187,9 +208,11 @@ alias import.addm="ImportService::AddModule"
 * `import.addm`. This function takes a string as a parameter and adds that module to the array.
   * *It does not source the file.*
 
-[Examples](./examples/import)
+- [Examples](./examples/import) on how to use `import`
 
 Feel free to check out the `src/Import.sh` file to see each function declaration (it's description, arguments and usage).
+
+<p align="right">(<a href="#top">back to top</a>)</p>
 
 ### Classes
 
@@ -292,6 +315,8 @@ MyClass::different_function() {
   Note that the `=` sign is not separated from the function name.
 * When user inits a class, arguments can be passed to the `__new__` function. (and same with all functions)
 
+<p align="right">(<a href="#top">back to top</a>)</p>
+
 #### Initiate a class
 
 To create a new instance of a class, you will use the `new` function. In the new function, you need to add a class name, a new variable in which it is going to be created with that name and arguments that can be passed to the `__new__` function.
@@ -303,6 +328,8 @@ Example (with context of the last example above):
 new MyClass my_class Rob
 # ^         ^ new var to create with class instance
 ```
+
+<p align="right">(<a href="#top">back to top</a>)</p>
 
 #### Call class' attributes
 
@@ -321,6 +348,8 @@ VAR=$($my_class.name)
 ```
 
 - See [examples on classes](./examples/class/)
+
+<p align="right">(<a href="#top">back to top</a>)</p>
 
 # License
 
@@ -350,3 +379,5 @@ VAR=$($my_class.name)
 # =========================================================================
 
 ```
+
+<p align="right">(<a href="#top">back to top</a>)</p>
