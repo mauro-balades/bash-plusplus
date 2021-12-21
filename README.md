@@ -22,11 +22,17 @@
 Bash++ is a new way to brin bash to a next level. This framework introduces new functionalities to bash. Some of this functionalities are:
 
 [ ] Unit testing
+
 [x] Classes
+
 [x] Imports
+
 [ ] Logging
+
 [ ] Types
+
 [ ] Errors
+
 * **_and many more!_**
 
 Bash++ is designed so that people could build more complex apps creating better products. Note that this project is for people with experience with bash (not much, just simple understandings and how things usualy work).
