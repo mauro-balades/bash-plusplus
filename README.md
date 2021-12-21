@@ -4,14 +4,14 @@
   <p align="center">
     This is a framework to bring bash to a next level.
     <br />
-    <a href="https://github.com/othneildrew/Best-README-Template"><strong>Check out the examples »</strong></a>
+    <a href="https://github.com/mauro-balades/bash-plusplus/tree/main/examples"><strong>Check out the examples »</strong></a>
     <br />
     <br />
-    <a href="">Project status</a>
+    <a href="https://github.com/mauro-balades/bash-plusplus/projects/1">Project status</a>
     ·
-    <a href="">Report Bug</a>
+    <a href="https://github.com/mauro-balades/bash-plusplus/issues">Report Bug</a>
     ·
-    <a href="">Request Feature</a>
+    <a href="https://github.com/mauro-balades/bash-plusplus/pulls">Contribute code</a>
   </p>
 </p>
 
