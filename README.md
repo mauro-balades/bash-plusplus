@@ -190,3 +190,158 @@ alias import.addm="ImportService::AddModule"
 [Examples](./examples/import)
 
 Feel free to check out the `src/Import.sh` file to see each function declaration (it's desciprtion, arguments and usage).
+
+### Classes
+
+Classes are the main purpose of this project. To create a class, you will need to import a built-in module called `Classes`
+
+```sh
+
+# BOOTSTRAP ALREADY DONE ABOVE (IMAGINE)
+
+import Classes
+```
+
+To define a class, it is like defining a normal variable except you have "attributes" inside it.
+
+
+```sh
+
+# BOOTSTRAP ALREADY DONE ABOVE (IMAGINE)
+
+import Classes
+
+MyClass=(
+
+  function __new__ # When class is initiated
+  function __delete__ # At the end of the script this is called
+
+  function hello
+  function hi = MyClass::diferent_function # If you call the function "hi", it will actually call MyClass::diferent_function
+
+  declare name
+) # Class called "MyClass"
+```
+
+Great, you have succesfully declared a class (joke). To add functionality, how abount declaring what the function will do. By the way, functions `__new__` and `__delete__` are completly optional.
+
+```sh
+
+# BOOTSTRAP ALREADY DONE ABOVE (IMAGINE)
+
+import Classes
+
+MyClass=(
+
+  function __new__ # When class is initiated
+  function __delete__ # At the end of the script this is called
+
+  function hello
+  function hi = MyClass::diferent_function # If you call the function "hi", it will actually call MyClass::diferent_function
+
+  declare name
+) # Class called "MyClass"
+
+MyClass::__new__() {
+  # Get the "self" value
+  # Examplained in the parragraph bellow.
+  local self=$1
+  shift
+
+  echo "class has inited"
+
+  # Set name to the first argument we get
+  # NOTE that name is declared above
+  # with the declare keyword
+  $self.name= "$2" # "$1" is the self argument
+}
+
+MyClass::__delete__() {
+  echo "Good Bye!"
+}
+
+MyClass::hello() {
+  local self=$1
+  shift
+
+  echo "Hello, $($self.name)"
+}
+
+# Called with the "hi" function
+MyClass::diferent_function() {
+  local self=$1
+  shift
+
+  echo "Hi, $($self.name)"
+}
+```
+
+* `the self argument`. This argument is used for people to access class' variables. An example has been done above with the variable `name`. This argument is the first argument, so you can access it in `$1`
+* To declare a variable inside a class, you will need to declare with the `declare` keyword (you can declare an array using `-a` as an argument).
+* To change a variable's value, a function has been declared wich is the following:
+
+  ```
+  $self.[VARIABLE_NAME]= "[VALUE]"
+  ```
+
+  Note that the `=` sign is not separated from the function name.
+* When user inits a class, arguments can be passerd to the `__new__` function. (and same with all functions)
+
+#### Initiate a class
+
+To create a new instance of a class, you will use the `new` function. In the new function, you need to add a class name, a new variable in which it is going to be created with that name and arguments that can be passed to the `__new__` function.
+
+Example (with context of the last example above):
+
+```sh
+#   | Class name     | Arguments passed to __new__ (can be infinite)
+new MyClass my_class Rob
+# ^         ^ new var to create with class instance
+```
+
+#### Call class' attributes
+
+When you have created a new instance of a class, a variable is made so that you can access thos functions and variables.
+
+example:
+
+```sh
+$my_class.hello # arguments separated by spaces
+```
+
+and to access class' variables:
+
+```bash
+VAR=$($my_class.name)
+```
+
+- See [examples on classes](./examples/class/)
+
+# License
+
+```
+# ================================ BASH ++ ================================
+#
+#    ...............................................
+#    @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+#    @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+#    @@@@@@@@@.(@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+#    @@@@@@@      @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+#    @@@@@@@@@      #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+#    @@@@@@@@@@@       @@@@@@@@@@@@@@@@@@@@@@@@  @@@   @@
+#    @@@@@@@@@@@@@      ,@@@@@@@@@@@@@@@@@@@@      @ @@@@@@
+#    @@@@@@@@@@.      @@@@@@@@@@@@@@@@@@@@@@@@@  @@@   @@
+#    @@@@@@@@      .@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+#    @@@@@@@@    @@@@@@@@             #@@@@@@@@@@@@@
+#    @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+#    @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+#    @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+#    @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+#    @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+#    @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@&
+#
+# Copytight <Mauro Baladés> 2007
+# Bash++ Is under the license of "GNU GENERAL PUBLIC LICENSE
+# =========================================================================
+
+```
