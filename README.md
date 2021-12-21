@@ -20,6 +20,7 @@
 # What is bash++ ?
 
 Bash++ is a new way to brin bash to a next level. This framework introduces new functionalities to bash. Some of this functionalities are:
+
 [ ] Unit testing
 [x] Classes
 [x] Imports
