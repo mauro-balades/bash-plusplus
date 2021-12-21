@@ -253,7 +253,11 @@ MyClass::__new__() {
   # Set name to the first argument we get
   # NOTE that name is declared above
   # with the declare keyword
-  $self.name= "$2" # "$1" is the self argument
+  #
+  # "$1" was the self argument
+  # but now, we shifter so that function
+  # can hav arguments like a normal function
+  $self.name= "$1"
 }
 
 MyClass::__delete__() {
@@ -264,7 +268,8 @@ MyClass::hello() {
   local self=$1
   shift
 
-  echo "Hello, $($self.name)"
+  NAME=$($self.name)
+  echo "Hello, $NAME"
 }
 
 # Called with the "hi" function
