@@ -2,7 +2,7 @@
 
 <p align="center">
 <img src="./logo.png" width="250" />
-<h2 align="center">bash ++</h1>
+<h2 align="center">bash ++</h2>
   <p align="center">
     This is a framework to bring bash to a next level.
     <br />
