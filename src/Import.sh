@@ -102,9 +102,10 @@ ImportService::Exists() {
   # Check if module exists in array
   if [[ ${_BASHPP_IMPORTED_FILES[*]} =~ ${module} ]]; then
     return 1 # Exists
+  else
+    return 0 # It does not exists
   fi
 
-  return 0 # It does not exists
 }
 
 # ImportService::NExists (import.nexists)
@@ -125,9 +126,9 @@ ImportService::NExists() {
   if [[ ${_BASHPP_IMPORTED_FILES[*]} =~ ${module} ]];
   then
     return 0 # Exists
+  else
+    return 1 # It does not exists
   fi
-
-  return 1 # It does not exists
 }
 
 # ImportService::GitHub (import.github)

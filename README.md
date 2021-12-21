@@ -184,3 +184,7 @@ alias import.addm="ImportService::AddModule"
 * `import.exists` and `import.nexists` this function returns a `1` if a module exists in the `sourced files` array. `nexists` returns `0` if it exists.
 * `import.addm`. This function takes a string as a parameter and adds that module to the array.
   * *It does not source the file.*
+
+[Examples](./examples/import)
+
+Feel free to check out the `src/Import.sh` file to see each function declaration (it's desciprtion, arguments and usage).
