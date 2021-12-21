@@ -21,7 +21,7 @@ install:
 	sudo echo "BASHPP_LIBS=$(LIBS)" >> /etc/environment
 
 uninstall:
-		sudo rm -rf $(PREFIX)$(NAME)
+	sudo rm -rf $(PREFIX)$(NAME)
 
 help:
 	@echo "Bash++ - help section"

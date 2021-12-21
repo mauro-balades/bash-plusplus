@@ -12,3 +12,6 @@ LOW PRIORITY:
 
 TESTS:
  - Add tests
+
+DOCS:
+ - Add an index
