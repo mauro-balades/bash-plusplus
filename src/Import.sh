@@ -267,7 +267,7 @@ ImportService::SimpleImport() {
     # e.g.
     #   import /usr/lib/bash++/Classes.sh
     if ImportService::ImportModuleByPath "${path}" "$@" || \
-    ImportService::ImportModuleByPath "${libs}/${path}" "$@"|| \
+    ImportService::ImportModuleByPath "${libs}/${path}" "$@" || \
     ImportService::ImportModuleByPath "${libs}/${path}.sh" "$@"|| \
     ImportService::ImportModuleByPath "${cpath}/${path}" "$@"|| \
     ImportService::ImportModuleByPath "./${path}.sh" "$@";
