@@ -374,7 +374,7 @@ VAR=$($my_class.name)
 #    @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 #    @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@&
 #
-# Copyright <Mauro Baladés> 2007
+# Copyright <Mauro Baladés> 2021
 # Bash++ Is under the license of "GNU GENERAL PUBLIC LICENSE
 # =========================================================================
 
