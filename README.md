@@ -47,7 +47,7 @@ Bash++ is a new way to bring bash to a next level. This framework introduces new
 
 Bash++ is designed so that people could build more complex apps creating better products. Note that this project is for people with experience with bash (not much, just simple understandings and how things usually work).
 
-When you run `bash++` with bash, the application brakes. This is why you need to add `#!/usr/bash` to the start of the script ([see instructions here](#getting-started)).
+When you run `bash++` with bash, the application breaks. This is why you need to add `#!/usr/bash` to the start of the script ([see instructions here](#getting-started)).
 
 Bash haves it's own module system, so you will have a bash++ folder in your `/usr/libs` directory (just so that you know).
 <p align="right">(<a href="#top">back to top</a>)</p>
@@ -62,7 +62,7 @@ git clone https://github.com/mauro-balades/bash-plusplus
 
 After cloning the repository, `cd` into that directory. Once you are in the directory called `bash++`. Run the following command to proceed with the installation.
 
-*Note that you need to run it in `sudo` mode.*
+*Note that you need to run it as root.*
 
 ```
 sudo make install
@@ -76,7 +76,7 @@ We all need to start somewhere, in this section you will se on how to use every 
 
 ## Getting started
 
-To get started, create a bash script (or you can already have an existing one). Add the following shebang (*to all the scripts*) at the start of the file so that bash can know what file you use.
+To get started, create a bash script (or an existing one). Add the following shebang at the start of the file so that bash can know what file you use.
 
 ```sh
 #!/bin/bash
