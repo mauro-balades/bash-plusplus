@@ -6,12 +6,12 @@ cd bash-plusplus
 
 if [[ ! "$1" == "" ]];
 then
-  sudo make install PREFIX="../$1"
+  sudo make install -B PREFIX="../$1"
   cd "../$1"
   mv libs .
   rm -rf libs
 else
-  sudo make install
+  sudo make -B install
 fi
 
 cd ..
