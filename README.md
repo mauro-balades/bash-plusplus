@@ -70,6 +70,8 @@ sudo make install
 
 When you have installed it, you will see a new directory (usually in `/usr/lib/bash++`). This directory is where all of bash's built-in libraries will be stored.
 
+* See how to [install it localy for everyone to use](https://youtu.be/SSPK9Ftiw-w)
+
 # Usage
 
 We all need to start somewhere, in this section you will se on how to use every functionality in bash++.
