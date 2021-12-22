@@ -3,7 +3,8 @@
 git clone https://github.com/mauro-balades/bash-plusplus
 
 cd bash-plusplus
-if [[ "$1" == "" ]];
+
+if [[ ! "$1" == "" ]];
 then
   sudo make install PREFIX="../$1"
   cd "../$1"
