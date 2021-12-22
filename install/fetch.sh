@@ -7,7 +7,7 @@ cd bash-plusplus
 if [[ ! "$1" == "" ]];
 then
   sudo make install -B PREFIX="../$1/"
-  cd "../$1"
+  cd "../$1/"
   sudo mv libs/* .
   rm -rf libs
 
