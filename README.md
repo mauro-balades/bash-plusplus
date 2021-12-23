@@ -105,7 +105,7 @@ Then, you can just simply run the script as:
 To bootstrap your script you will need to source the Import script in your libs folder.
 
 ```bash
-. "${BASHPP_LIBS}/Import.sh # Source bash++
+. "${BASHPP_LIBS}/Import.sh" # Source bash++
 ```
 
 **NOTE**: Only do this step *once* (aka in the main script). and you will need to put in at the top of the file.
@@ -167,6 +167,18 @@ Usage:
     * $( pwd )/MyFile.sh
     * $( BASHPP_LIBS )/MyFile
     * $( BASHPP_LIBS )/MyFile.sh
+    * /usr/lib/MyFile
+    * /usr/lib/MyFile.sh
+    * /opt/MyFile
+    * /opt/MyFile.sh
+    * /usr/share/MyFile
+    * /usr/share/MyFile.sh
+    * /usr/local/lib/MyFile
+    * /usr/local/lib/MyFile.sh
+    * $HOME/.local/lib/MyFile
+    * $HOME/.local/lib/MyFile.sh
+    * $HOME/.local/share/MyFile
+    * $HOME/.local/share/MyFile.sh
 * `import github:mauro-balades/bash-plusplus/...`
   * Imports bash file from the `raw.githubusercontent.com` domain.
   * Notice how it starts with `github:`
