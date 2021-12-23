@@ -258,6 +258,29 @@ ImportService::SimpleImport() {
     #     - /usr/lib/bash++/Classes.sh
     #     - /usr/lib/bash++/Classes
     #     - $( pwd )/Classes
+    #     - /usr/lib/Classes
+    #     - /usr/lib/Classes.sh
+    #     - /opt/Classes
+    #     - /opt/Classes.sh
+    #     - /usr/share/Classes
+    #     - /usr/share/Classes.sh
+    #     - /usr/local/lib/Classes
+    #     - /usr/local/lib/Classes.sh
+    #     - $HOME/.local/lib/Classes
+    #     - $HOME/.local/lib/Classes.sh
+    #     - $HOME/.local/share/Classes
+    #     - $HOME/.local/share/Classes.sh
+    #
+    #   Some paths don't make sense unless you're importing from doftware packages:
+    #
+    #   import myapp/util
+    #
+    #     - /usr/lib/myapp/util
+    #     - /opt/myapp/util
+    #     - /usr/share/myapp/util
+    #     - /usr/local/lib/myapp/util
+    #     - $HOME/.local/lib/myapp/util
+    #     - $HOME/.local/share/myapp/util
     #
     # As shown in the example, we can see how messy can
     # some of the URL's be, this is why this method implemented.
@@ -267,13 +290,22 @@ ImportService::SimpleImport() {
     # e.g.
     #   import /usr/lib/bash++/Classes.sh
     if ImportService::ImportModuleByPath "${path}" "$@" || \
-    ImportService::ImportModuleByPath "${libs}/${path}" "$@" || \
-    ImportService::ImportModuleByPath "${libs}/${path}.sh" "$@"|| \
-    ImportService::ImportModuleByPath "${cpath}/${path}" "$@"|| \
-    ImportService::ImportModuleByPath "./${path}.sh" "$@";
+      ImportService::ImportModuleByPath "./${path}.sh" "$@";
     then
-      :
-    else
+      return 0
+    fi
+    local loaded=0
+    for check in ${common_paths[@]}
+    do
+      if ImportService::ImportModuleByPath "${check}/${path}" "$@" || \
+      ImportService::ImportModuleByPath "${check}/${path}.sh" "$@";
+      then
+        loaded=1
+        break
+      fi
+    done
+    if [ $loaded -eq 0 ];
+    then
       # TODO: better error handling
       printf "Unable to load $path\n" >&2
       exit 1
@@ -321,7 +353,7 @@ shopt -s expand_aliases
 # NOTE: the libs path and BASHPP_LIBS will be generated with "sudo make install"
 builtin declare -g libs="$BASHPP_LIBS"
 builtin declare -g cpath="$( pwd )"
-
+builtin declare -g common_paths="/usr/lib /opt /usr/share /usr/local/lib $HOME/.local/lib $HOME/.local/share $cpath $libs"
 # Declare an array containing the imported files
 # To avoid duplucation
 builtin declare -ag _BASHPP_IMPORTED_FILES
