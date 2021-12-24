@@ -104,7 +104,7 @@ class Compiler:
 
         output.add_output(") {\n")
         output.add_output(block)
-        # output.add_output("\n}\n")
+        output.add_output("\n}\n")
 
     def parse_required(self, char):
         self.advance_until_char()
@@ -172,11 +172,9 @@ class Compiler:
         while not (self.current_char is None):
 
             if self.current_char == "}":
-                output.add_output("\n" + self.current_char)
                 break
             elif self.current_char is None:
                 raise SyntaxError("Expected atleas a \"}\", found 'NOTHING'")
-                break
 
             if self.current_char == "#":
                 self.skip_comment()
