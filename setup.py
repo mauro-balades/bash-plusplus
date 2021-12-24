@@ -8,6 +8,7 @@ from setuptools import setup
 def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
 
+
 with open("bashpp/__init__.py") as f:
     info = {}
     for line in f.readlines():
@@ -17,22 +18,22 @@ with open("bashpp/__init__.py") as f:
 
 
 setup(
-    name = "bashpp",
-    version = "0.0.0",
-    author = "",
-    author_email = "",
-    description = "",
-    license = "BSD",
-    keywords = "example documentation tutorial",
-    url = "https://github.com/mauro-balades/bash-plusplus",
+    name="bashpp",
+    version="0.0.0",
+    author="",
+    author_email="",
+    description="",
+    license="BSD",
+    keywords="example documentation tutorial",
+    url="https://github.com/mauro-balades/bash-plusplus",
     packages=["bashpp"],
-    entry_points = {
-        'console_scripts': [
+    entry_points={
+        "console_scripts": [
             "bashpp=bashpp.main:main",
         ]
     },
     install_requires=["click"],
-    long_description=read('README.md'),
+    long_description=read("README.md"),
     classifiers=[
         "Development Status :: 3 - Alpha",
         "Topic :: Utilities",

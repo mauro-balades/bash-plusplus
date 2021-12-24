@@ -1,11 +1,12 @@
 
 function hello() {
     echo "hello"
-
 }
 
 function main (thing) {
     echo thing
 }
 
-main "func"
+# comment
+main "func" # comment 2
+# comment 3

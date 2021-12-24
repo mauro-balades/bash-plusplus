@@ -22,4 +22,4 @@
 # Bash++ Is under the license of "GNU GENERAL PUBLIC LICENSE
 # =========================================================================
 
-VERSION="0.0.1"
+VERSION = "0.0.1"

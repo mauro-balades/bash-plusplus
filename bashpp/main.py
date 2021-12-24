@@ -26,13 +26,15 @@ from bashpp.compiler import Compiler
 
 import click
 
+
 @click.group()
 def main():
     pass
 
+
 @main.command()
-@click.argument('file', metavar='<name>')
-@click.option('--debug/--no-debug', default=False)
+@click.argument("file", metavar="<name>")
+@click.option("--debug/--no-debug", default=False)
 @click.pass_context
 def compile(ctx, file, debug):
     Compiler(filename=file, debug=debug)

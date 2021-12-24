@@ -22,6 +22,7 @@
 # Bash++ Is under the license of "GNU GENERAL PUBLIC LICENSE
 # =========================================================================
 
+
 class Output:
     """This is the final output from a compiled version of bash++"""
 
