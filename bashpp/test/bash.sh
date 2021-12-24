@@ -1,12 +1,5 @@
 
-function hello() {
-    echo "hello"
-}
 
-function main (thing) {
+function main() {
     echo thing
 }
-
-# comment
-main "func" # comment 2
-# comment 3
