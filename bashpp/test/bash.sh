@@ -1,5 +1,0 @@
-
-
-function main() {
-    echo thing
-}
