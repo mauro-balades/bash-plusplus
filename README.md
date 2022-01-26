@@ -22,7 +22,7 @@
 - [What is bash++ ?](#what-is-bash----)
 - [Installation](#installation)
 - [Q/A](#QA)
-- 
+  * [What's the point when python, perl and other more robust scripting languages exist?](#Whats-the-point-when-python-perl-and-other-more-robust-scripting-languages-exist)
 - [Usage](#usage)
   * [Getting started](#getting-started)
   * [Bootstrap the project](#bootstrap-the-project)
