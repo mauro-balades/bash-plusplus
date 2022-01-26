@@ -21,6 +21,8 @@
 
 - [What is bash++ ?](#what-is-bash----)
 - [Installation](#installation)
+- [Q/A](#QA)
+- 
 - [Usage](#usage)
   * [Getting started](#getting-started)
   * [Bootstrap the project](#bootstrap-the-project)
@@ -71,6 +73,20 @@ sudo make install
 When you have installed it, you will see a new directory (usually in `/usr/lib/bash++`). This directory is where all of bash's built-in libraries will be stored.
 
 * See how to [install it localy for everyone to use](https://youtu.be/SSPK9Ftiw-w)
+
+# Q/A
+
+## What's the point when python, perl and other more robust scripting languages exist?
+
+This is something that comes up really often, I've found that [Oil
+Shell](http://www.oilshell.org/) main FAQ covers this topic thoroughly:
+
+- [I don't understand. Why not use a different a programming language?](http://www.oilshell.org/blog/2018/01/28.html#i-dont-understand-why-not-use-a-different-a-programming-language)
+- [Shouldn't we discourage people from writing shell scripts?](http://www.oilshell.org/blog/2018/01/28.html#shouldnt-we-discourage-people-from-writing-shell-scripts)
+- [Shouldn't scripts over 100 lines be rewritten in Python or Ruby?](http://www.oilshell.org/blog/2018/01/28.html#shouldnt-scripts-over-100-lines-be-rewritten-in-python-or-ruby)
+
+Be sure to check out [Oil](http://www.oilshell.org/) in more detail if you can,
+it's a very impressive project.
 
 # Usage
 
