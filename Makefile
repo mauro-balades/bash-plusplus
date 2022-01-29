@@ -6,7 +6,7 @@ SOURCE := src
 
 all: help
 
-install:
+install: FORCE
 
 	sudo mkdir -p $(PREFIX)$(NAME)
 	sudo mkdir -p $(LIBS)
@@ -16,17 +16,20 @@ install:
 	sudo cp $(SOURCE)/Logger.sh $(LIBS)/Logger.sh
 	sudo cp $(SOURCE)/Types.sh $(LIBS)/Types.sh
 	sudo cp $(SOURCE)/UnitTests.sh $(LIBS)/UnitTests.sh
+	sudo cp $(SOURCE)/dotenv.sh $(LIBS)/dotenv.sh
 	sudo cp -rf $(SOURCE)/utils $(LIBS)/utils
 
-    @if [ "test" = "test" ]; then\
-        export BASHPP_LIBS=$(LIBS);\
-		sudo echo "BASHPP_LIBS=$(LIBS)" >> /etc/environment ;\
+	if [ "$BASHPP_LIBS" = "" ]; then \
+		export BASHPP_LIBS=$(LIBS); \
+		sudo echo "BASHPP_LIBS=$(LIBS)" >> /etc/environment; \
 	fi
 
-uninstall:
+uninstall: FORCE
+
 	sudo rm -rf $(PREFIX)$(NAME)
 
-help:
+help: FORCE
+
 	@echo "Bash++ - help section"
 	@echo ""
 	@echo "About:"
@@ -42,3 +45,5 @@ help:
 	@echo "  uninstall 		- Uninstall bash++"
 	@echo "  help     		- Show this message"
 	@echo ""
+
+.PHONY: FORCE

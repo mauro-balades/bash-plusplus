@@ -39,6 +39,7 @@ Bash++ is a new way to bring bash to a next level. This framework introduces new
 - [ ] Unit testing
 - [x] Classes
 - [x] Imports
+- [ ] DotEnv
 - [ ] Logging
 - [ ] Types
 - [ ] Errors
