@@ -32,6 +32,7 @@
     + [Classes](#classes)
       - [Initiate a class](#initiate-a-class)
       - [Call class' attributes](#call-class--attributes)
+    + [DotEnv](#-env)
 - [License](#license)
 
 # What is bash++ ?
@@ -381,6 +382,26 @@ VAR=$($my_class.name)
 - See [examples on classes](./examples/class/)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
+
+### .env
+
+To import enviromental variables, you will need to include the dotenv module.
+
+```bash
+import dotenv
+```
+
+This will give you acces to the `load_dotenv` function. This functions has 1 optional parameter. That paramenter is the name of your `.env` file.
+
+```bash
+load_dotenv
+
+# or
+load_dotenv "path/to/.env"
+```
+
+<p align="right">(<a href="#top">back to top</a>)</p>
+
 
 # License
 
